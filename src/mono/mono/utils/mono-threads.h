@@ -201,6 +201,18 @@ typedef enum {
 	MONO_THREAD_INFO_FLAGS_NO_SAMPLE = 2,
 } MonoThreadInfoFlags;
 
+typedef enum {
+    /**
+     * Suspend signal sent outside of runtime - default
+     */
+    MONO_THREAD_SUSPEND_SOURCE_DEFAULT = 0,
+    MONO_THREAD_SUSPEND_SOURCE_EXTERNAL = 0,
+    /**
+     * Suspend signal sent from runtime
+     */
+    MONO_THREAD_SUSPEND_SOURCE_RUNTIME = 1,
+} MonoThreadSuspendSource;
+
 G_ENUM_FUNCTIONS (MonoThreadInfoFlags)
 
 typedef struct _MonoThreadInfoInterruptToken MonoThreadInfoInterruptToken;
@@ -312,6 +324,10 @@ typedef struct _MonoThreadInfo {
 	 * TODO support multiple values by multiple tools
 	 */
 	void *tools_data;
+
+	gboolean suspend_source_locked;
+
+	MonoThreadSuspendSource suspend_source;
 } MonoThreadInfo;
 
 typedef struct {
