@@ -29,3 +29,8 @@ MONO_API_FUNCTION(MonoBundledSatelliteAssembly *, mono_create_new_bundled_satell
 
 
 MONO_API_FUNCTION(MONO_RT_EXTERNAL_ONLY void*, mono_method_get_unmanaged_callers_only_ftnptr, (MonoMethod *method, MonoError *error))
+
+typedef gboolean (*CheckThread) (pthread_t tid);
+MONO_API MONO_RT_EXTERNAL_ONLY void mono_melonloader_set_thread_checker(CheckThread callback);
+
+MONO_API MONO_RT_EXTERNAL_ONLY void mono_melonloader_thread_suspend_reload();

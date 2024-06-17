@@ -171,6 +171,12 @@ mono_threads_pthread_kill (MonoThreadInfo *info, int signum)
 {
 	THREADS_SUSPEND_DEBUG ("sending signal %d to %p[%p]\n", signum, info, mono_thread_info_get_tid (info));
 
+	if (info->suspend_source_locked) {
+		g_assert(info->suspend_source == MONO_THREAD_SUSPEND_SOURCE_RUNTIME);
+	} else {
+		info->suspend_source = MONO_THREAD_SUSPEND_SOURCE_RUNTIME;
+	}
+
 	const int signal_queue_ovf_retry_count G_GNUC_UNUSED = 5;
 	const gulong signal_queue_ovf_sleep_us G_GNUC_UNUSED = 10 * 1000; /* 10 milliseconds */
 	int retry_count G_GNUC_UNUSED = 0;
