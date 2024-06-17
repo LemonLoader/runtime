@@ -23,7 +23,7 @@
 
 #ifdef HAVE_ANDROID_LEGACY_SIGNAL_INLINES_H
 #include <android/legacy_signal_inlines.h>
-#include <metadata/threads.h>
+#include <mono/metadata/threads.h>
 #endif
 
 #include "mono-threads-debug.h"
@@ -216,7 +216,7 @@ ml_v2_signal_generic_handler(int _dummy, siginfo_t* info, void* context)
 
     t_merged_signal* merged = g_hash_table_lookup(mono_ml_signal_handler_patched, (gconstpointer) info->si_signo);
 
-    auto isRegistered = mono_is_registered_thread();
+    gboolean isRegistered = mono_is_registered_thread();
 
     if (!isRegistered) {
         THREADS_SUSPEND_DEBUG("[%p] [%d] assuming signal from il2cpp", mono_native_thread_id_get(), info->si_signo);
